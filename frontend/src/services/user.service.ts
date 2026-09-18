@@ -8,7 +8,7 @@ import { catchError, map } from 'rxjs/operators';
 })
 
 export class UserService {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = '/api';
 
   constructor(private http: HttpClient) {}
 
