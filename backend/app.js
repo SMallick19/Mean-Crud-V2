@@ -16,7 +16,7 @@ app.use(userRoutes)
 
 
 async function connectDB() {
-    await mongoose.connect('mongodb+srv://saikat:saikat1998@cluster0.dhcvisx.mongodb.net/?appName=Cluster0', {
+    await mongoose.connect(process.env.MONGO_URI, {
         dbName: 'UsersDb'
     });
 }
