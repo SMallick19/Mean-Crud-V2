@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: backend:latest
+        image: 763103708432.dkr.ecr.us-east-1.amazonaws.com/mean-crud-backend:1.0
         ports:
         - containerPort: 3000
         env:

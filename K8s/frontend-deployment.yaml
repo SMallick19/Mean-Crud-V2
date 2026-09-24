@@ -21,30 +21,29 @@ spec:
     metadata:
       labels:
         app: frontend
+
     spec:
       containers:
       - name: frontend
-        image: frontend:latest
+        image: 763103708432.dkr.ecr.us-east-1.amazonaws.com/mean-crud-frontend:1.0
+
         ports:
-        - containerPort: 4200
-        env:
-          - name: PORT
-            value: "4200"
+        - containerPort: 80
 
         livenessProbe:
           httpGet:
-            path: /health
-            port: 4200
+            path: /
+            port: 80
           initialDelaySeconds: 30
           periodSeconds: 10
 
         readinessProbe:
           httpGet:
-            path: /health
-            port: 4200
-          initialDelaySeconds: 30
+            path: /
+            port: 80
+          initialDelaySeconds: 10
           periodSeconds: 10
-        
+
         resources:
           requests:
             memory: "128Mi"
