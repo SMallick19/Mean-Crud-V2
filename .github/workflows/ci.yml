@@ -21,8 +21,8 @@ jobs:
     strategy:
       matrix:
         app:
-          - crudBack
-          - crudFront
+          - backend
+          - frontend
 
     defaults:
       run:
