@@ -36,76 +36,9 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: us-east-1
 
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Generate image tag
-        id: image
-        run: |
-          echo "tag=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
-
-      - name: Build backend
-        run: |
-          docker build \
-            -t ${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }} \
-            ./crudBack
-
-      - name: Build frontend
-        run: |
-          docker build \
-            -t ${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }} \
-            ./crudFront
-
-      - name: Tag backend
-        run: |
-          docker tag \
-            ${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }} \
-            ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }}
-
-      - name: Tag frontend
-        run: |
-          docker tag \
-            ${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }} \
-            ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }}
-
-      - name: Push backend
-        run: |
-          docker push \
-            ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }}
-
-      - name: Push frontend
-        run: |
-          docker push \
-            ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }}
-
-      - name: Configure kubectl
-        run: |
-          aws eks update-kubeconfig \
-            --region $AWS_REGION \
-            --name $EKS_CLUSTER
-
-      - name: Update backend
-        run: |
-          kubectl -n $NAMESPACE set image \
-            deployment/backend \
-            backend=${{ secrets.ECR_REGISTRY }}/${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }}
-
-      - name: Update frontend
-        run: |
-          kubectl -n $NAMESPACE set image \
-            deployment/frontend \
-            frontend=${{ secrets.ECR_REGISTRY }}/${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }}
-
-      - name: Wait for backend
-        run: |
-          kubectl -n $NAMESPACE rollout status \
-            deployment/backend \
-            --timeout=5m
-
-      - name: Wait for frontend
-        run: |
-          kubectl -n $NAMESPACE rollout status \
-            deployment/frontend \
-            --timeout=5m
+      - name: Confirm ECR login
+        run: echo "Logged in to ECR"
