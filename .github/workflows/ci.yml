@@ -44,4 +44,4 @@ jobs:
         run: npm ci
       - name: Run tests
         if: matrix.app == 'frontend'
-        run: npm test -- --watch=false
+        run: npm test -- --watch=false --browsers=ChromeHeadless
