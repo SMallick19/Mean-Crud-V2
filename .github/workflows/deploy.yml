@@ -11,6 +11,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
+  AWS_ACCOUNT_ID: 763103708432
 
   ECR_BACKEND: mean-crud-backend
   ECR_FRONTEND: mean-crud-frontend
