@@ -111,9 +111,9 @@ jobs:
       - name: Wait for ingress
         run: |
           kubectl -n $NAMESPACE rollout status \
-            deployment/ingress \
+            deployment/mean-crud-ingress \
             --timeout=5m
 
       - name: Verify ingress
         run: |
-          kubectl -n $NAMESPACE get ingress -o wide
+          kubectl get ingress -n $NAMESPACE -o wide
