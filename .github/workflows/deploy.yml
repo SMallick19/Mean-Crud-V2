@@ -80,13 +80,13 @@ jobs:
           aws eks update-kubeconfig \
             --region $AWS_REGION \
             --name $EKS_CLUSTER
-      - name: Update backend image
+      - name: Update backend
         run: |
-          kubectl set image deployment/backend \
-            backend=${{ secrets.ECR_REGISTRY }}/${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }} \
-            -n $NAMESPACE
-      - name: Update frontend image
+          kubectl -n $NAMESPACE set image \
+            deployment/backend-deployment \
+            backend=${{ secrets.ECR_REGISTRY }}/${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }}
+      - name: Update frontend
         run: |
-          kubectl set image deployment/frontend \
-            frontend=${{ secrets.ECR_REGISTRY }}/${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }} \
-            -n $NAMESPACE
+          kubectl -n $NAMESPACE set image \
+            deployment/frontend-deployment \
+            frontend=${{ secrets.ECR_REGISTRY }}/${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }}
