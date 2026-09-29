@@ -16,7 +16,7 @@ env:
   ECR_BACKEND: mean-crud-backend
   ECR_FRONTEND: mean-crud-frontend
 
-  EKS_CLUSTER: mean-crud-cluster
+  EKS_CLUSTER: mean-crud-eks
 
   NAMESPACE: mean-crud
 
