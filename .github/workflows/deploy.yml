@@ -80,14 +80,6 @@ jobs:
           aws eks update-kubeconfig \
             --region $AWS_REGION \
             --name $EKS_CLUSTER
-      - name: Apply backend deployment
-        run: |
-          kubectl apply -f K8s/backend-deployment.yaml \
-            -n $NAMESPACE
-      - name: Apply frontend deployment
-        run: |
-          kubectl apply -f K8s/frontend-deployment.yaml \
-            -n $NAMESPACE
       - name: Update backend image
         run: |
           kubectl set image deployment/backend \
