@@ -67,3 +67,11 @@ jobs:
           docker tag \
             ${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }} \
             ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }}
+      - name: Push backend
+        run: |
+          docker push \
+            ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }}
+      - name: Push frontend
+        run: |
+          docker push \
+            ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }}
