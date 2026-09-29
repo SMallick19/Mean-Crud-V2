@@ -44,4 +44,4 @@ jobs:
       
       - name: Generate image tag
         id: image
-        run: echo "tag=${GITHUB_SHA::7}" >> "GITHUB_OUTPUT"
+        run: echo "tag=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
