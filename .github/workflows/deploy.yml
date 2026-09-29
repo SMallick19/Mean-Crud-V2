@@ -85,6 +85,9 @@ jobs:
         run: |
           kubectl apply -f K8s/backend-deployment.yaml -n $NAMESPACE
           kubectl apply -f K8s/frontend-deployment.yaml -n $NAMESPACE
+          kubectl apply -f K8s/backend-service.yaml -n $NAMESPACE
+          kubectl apply -f K8s/frontend-service.yaml -n $NAMESPACE
+          kubectl apply -f K8s/ingress.yaml -n $NAMESPACE
       - name: Update backend
         run: |
           kubectl -n $NAMESPACE set image \
@@ -105,3 +108,12 @@ jobs:
           kubectl -n $NAMESPACE rollout status \
             deployment/frontend-deployment \
             --timeout=5m
+      - name: Wait for ingress
+        run: |
+          kubectl -n $NAMESPACE rollout status \
+            deployment/ingress \
+            --timeout=5m
+
+      - name: Verify ingress
+        run: |
+          kubectl -n $NAMESPACE get ingress -o wide
