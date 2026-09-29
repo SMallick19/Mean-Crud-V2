@@ -87,6 +87,7 @@ jobs:
           kubectl apply -f K8s/frontend-deployment.yaml -n $NAMESPACE
           kubectl apply -f K8s/backend-service.yaml -n $NAMESPACE
           kubectl apply -f K8s/frontend-service.yaml -n $NAMESPACE
+          kubectl apply -f K8s/ingress-class.yaml -n $NAMESPACE
           kubectl apply -f K8s/ingress.yaml -n $NAMESPACE
 
       - name: Debug EKS Auto Mode Load Balancer
