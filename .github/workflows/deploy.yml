@@ -47,3 +47,8 @@ jobs:
         run: |
           echo "tag=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
           echo "Generated image tag: ${{ steps.image.outputs.tag }} ${GITHUB_SHA::7}"
+      - name: Build backend
+        run: |
+          docker build \
+            -t ${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }} \
+            ./backend
