@@ -9,7 +9,7 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
 
 spec:
-  controller: eks.amazonaws.com/alb
+  ingressClassName: alb
 
   rules:
     - http:
