@@ -56,3 +56,14 @@ jobs:
           docker build \
             -t ${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }} \
             ./frontend
+      - name: Tag backend
+        run: |
+          docker tag \
+            ${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }} \
+            ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_BACKEND }}:${{ steps.image.outputs.tag }}
+
+      - name: Tag frontend
+        run: |
+          docker tag \
+            ${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }} \
+            ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }}
