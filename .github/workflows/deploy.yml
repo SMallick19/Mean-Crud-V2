@@ -108,7 +108,31 @@ jobs:
           kubectl -n $NAMESPACE rollout status \
             deployment/frontend-deployment \
             --timeout=5m
-
       - name: Verify ingress
         run: |
           kubectl get ingress -n $NAMESPACE -o wide
+      - name: Debug Ingress and ALB
+        run: |
+          echo "===== Kubernetes Nodes ====="
+          kubectl get nodes
+
+          echo "===== All Resources ====="
+          kubectl get all -n $NAMESPACE
+
+          echo "===== Ingress ====="
+          kubectl get ingress -n $NAMESPACE -o wide
+
+          echo "===== Ingress Description ====="
+          kubectl describe ingress mean-crud-ingress -n $NAMESPACE
+
+          echo "===== AWS Load Balancer Controller ====="
+          kubectl get deployment -n kube-system aws-load-balancer-controller
+
+          echo "===== AWS Load Balancer Controller Pods ====="
+          kubectl get pods -n kube-system | grep aws-load-balancer-controller
+
+          echo "===== AWS Load Balancer Controller Logs ====="
+          kubectl logs \
+            -n kube-system \
+            deployment/aws-load-balancer-controller \
+            --tail=200
