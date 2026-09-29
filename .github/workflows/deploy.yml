@@ -108,11 +108,6 @@ jobs:
           kubectl -n $NAMESPACE rollout status \
             deployment/frontend-deployment \
             --timeout=5m
-      - name: Wait for ingress
-        run: |
-          kubectl -n $NAMESPACE rollout status \
-            deployment/mean-crud-ingress \
-            --timeout=5m
 
       - name: Verify ingress
         run: |
