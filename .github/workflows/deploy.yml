@@ -37,8 +37,11 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
           aws-region: us-east-1
-
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
       - name: Confirm ECR login
         run: echo "Logged in to ECR"
+      
+      - name: Generate image tag
+        id: image
+        run: echo "tag=${GITHUB_SHA::7}" >> "GITHUB_OUTPUT"
