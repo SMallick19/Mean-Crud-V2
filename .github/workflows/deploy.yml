@@ -80,6 +80,19 @@ jobs:
           aws eks update-kubeconfig \
             --region $AWS_REGION \
             --name $EKS_CLUSTER
+      - name: Verify EKS access
+        run: |
+          echo "AWS identity:"
+          aws sts get-caller-identity
+
+          echo "Kubernetes context:"
+          kubectl config current-context
+
+          echo "EKS nodes:"
+          kubectl get nodes
+
+          echo "Deployments:"
+          kubectl get deployments -n $NAMESPACE
       - name: Update backend
         run: |
           kubectl -n $NAMESPACE set image \
