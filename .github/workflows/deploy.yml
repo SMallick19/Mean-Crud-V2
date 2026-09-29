@@ -188,3 +188,34 @@ jobs:
             -n kube-system \
             deployment/aws-load-balancer-controller \
             --tail=200
+
+      - name: Wait for ALB
+        run: |
+          echo "Waiting for ALB to become active..."
+
+          for i in {1..30}; do
+            STATE=$(aws elbv2 describe-load-balancers \
+              --region $AWS_REGION \
+              --query 'LoadBalancers[?Type==`application`].State.Code' \
+              --output text)
+
+            echo "ALB state: $STATE"
+
+            if [ "$STATE" = "active" ]; then
+              echo "ALB is active"
+              break
+            fi
+
+            sleep 10
+          done
+
+      - name: Get Application URL
+        run: |
+          ALB_DNS=$(kubectl get ingress mean-crud-ingress \
+            -n $NAMESPACE \
+            -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+
+          echo "======================================"
+          echo "Application URL:"
+          echo "http://$ALB_DNS"
+          echo "======================================"
