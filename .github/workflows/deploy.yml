@@ -75,3 +75,8 @@ jobs:
         run: |
           docker push \
             ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_FRONTEND }}:${{ steps.image.outputs.tag }}
+      - name: Configure kubectl
+        run: |
+          aws eks update-kubeconfig \
+            --region $AWS_REGION \
+            --name $EKS_CLUSTER
