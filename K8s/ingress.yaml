@@ -10,6 +10,7 @@ metadata:
 
 spec:
   ingressClassName: alb
+  controller: eks.amazonaws.com/alb
 
   rules:
     - http:

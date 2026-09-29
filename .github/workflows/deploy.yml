@@ -88,6 +88,54 @@ jobs:
           kubectl apply -f K8s/backend-service.yaml -n $NAMESPACE
           kubectl apply -f K8s/frontend-service.yaml -n $NAMESPACE
           kubectl apply -f K8s/ingress.yaml -n $NAMESPACE
+
+      - name: Debug EKS Auto Mode Load Balancer
+        run: |
+          echo "===== EKS AUTO MODE ====="
+
+          aws eks describe-cluster \
+            --name $EKS_CLUSTER \
+            --region $AWS_REGION \
+            --query 'cluster.computeConfig' \
+            --output yaml
+
+          echo "===== INGRESS CLASSES ====="
+
+          kubectl get ingressclass -o yaml
+
+          echo "===== ALB INGRESS CLASS ====="
+
+          kubectl describe ingressclass alb
+
+          echo "===== INGRESS ====="
+
+          kubectl get ingress mean-crud-ingress \
+            -n $NAMESPACE \
+            -o yaml
+
+          echo "===== INGRESS EVENTS ====="
+
+          kubectl describe ingress mean-crud-ingress \
+            -n $NAMESPACE
+
+          echo "===== SERVICES ====="
+
+          kubectl get svc \
+            -n $NAMESPACE \
+            -o wide
+
+          echo "===== ENDPOINTS ====="
+
+          kubectl get endpoints \
+            -n $NAMESPACE \
+            -o wide
+
+          echo "===== AWS LOAD BALANCERS ====="
+
+          aws elbv2 describe-load-balancers \
+            --region $AWS_REGION \
+            --query 'LoadBalancers[*].[LoadBalancerName,DNSName,State.Code,Scheme,Type]' \
+            --output table
       - name: Update backend
         run: |
           kubectl -n $NAMESPACE set image \
