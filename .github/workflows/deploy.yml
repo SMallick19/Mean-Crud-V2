@@ -176,9 +176,6 @@ jobs:
 
           echo "===== Ingress Description ====="
           kubectl describe ingress mean-crud-ingress -n $NAMESPACE
-
-          echo "===== AWS Load Balancer Controller Pods ====="
-          kubectl get pods -n kube-system | grep aws-load-balancer-controller
       - name: Wait for ALB
         run: |
           echo "Waiting for ALB to become active..."
