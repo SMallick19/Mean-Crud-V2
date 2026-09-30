@@ -182,13 +182,6 @@ jobs:
 
           echo "===== AWS Load Balancer Controller Pods ====="
           kubectl get pods -n kube-system | grep aws-load-balancer-controller
-
-          echo "===== AWS Load Balancer Controller Logs ====="
-          kubectl logs \
-            -n kube-system \
-            deployment/aws-load-balancer-controller \
-            --tail=200
-
       - name: Wait for ALB
         run: |
           echo "Waiting for ALB to become active..."
